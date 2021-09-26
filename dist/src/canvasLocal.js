@@ -33,11 +33,11 @@ export class CanvasLocal {
         //this.graphics.stroke();
     }
     paint() {
-        this.drawLine(320, 40, 480, 400);
-        ; // le agregue 120,30,380,300
-        this.drawLine(320, 40, 140, 400); //le agregue   120, 30, 40,300
-        this.drawLine(140, 400, 480, 400); // le agregue  40,300,380,300
-        //this.drawLine(320,40,420,400);//le agregue
+        //dibuja un triangulo
+        /*this.drawLine(320, 40, 480, 400);;//
+        this.drawLine(320, 40, 140, 400);//
+        this.drawLine(140, 400, 480, 400)//
+      */
         let side = 0.9 * 480;
         let sideHalf = 0.5 * side;
         let xCenter = 320;

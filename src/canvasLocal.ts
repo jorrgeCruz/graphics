@@ -73,7 +73,7 @@ paint() {
   xB= xCenter + sideHalf;
   yB=yA;
   xC= xCenter;
-  //yC=yCenter + 0.5 * h;
+  yC=yCenter + 0.5 * h;
   for (let i=0;i<50;i++)
   {
     this.drawLine(xA, yA, xB,  yB);
