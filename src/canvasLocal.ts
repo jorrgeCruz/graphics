@@ -2,26 +2,70 @@
 export class CanvasLocal {
   //atributos
   protected graphics: CanvasRenderingContext2D;
-  protected rWidth:number;
-  protected rHeight:number;
-  protected maxX: number;
-  protected maxY: number;
-  protected pixelSize: number;
-  protected centerX: number;
-  protected centerY: number;
+  rWidth:number =5;
+  rHeight:number = 5;
+   maxX: number;
+   maxY: number;
+   pixelSize: number;
+   centerX: number;
+   centerY: number;
+
+  
+   //pixelWidth: number;
+   //pixelHeigth: number;
   
       
   public constructor(g: CanvasRenderingContext2D, canvas: HTMLCanvasElement){
-    this.graphics = g;
-    this.rWidth = 6;
-    this.rHeight= 4;
-    this.maxX = canvas.width - 1
-    this.maxY = canvas.height - 1;
-    this.pixelSize = Math.max(this.rWidth / this.maxX, this.rHeight / this.maxY);
-    this.centerX = this.maxX/2;
-    this.centerY = this.maxY/2;
-  }
+     this.graphics = g;
+     this.rWidth=640; //le agregue
+     this.rHeight=480; //le agregue
+    //this.rWidth = 6;
+    //this.rHeight= 4;
+     this.maxX = canvas.width - 1
+     this.maxY = canvas.height - 1;
+     this.pixelSize = Math.max(this.rWidth / this.maxX, this.rHeight / this.maxY);
+      
+     this.centerX = this.maxX/2 ;
+     this.centerY = this.maxY/2; 
 
+     //this.pixelWidth= this.rWidth/this.maxX;
+     //this.pixelHeigth = this.rHeight/this.maxY
+
+   // this.pixelSize = Math.max(this.rWidth / this.maxX, this.rHeight / this.maxY);
+    //this.centerX = this.maxX/2;
+    //this.centerY = this.maxY/2;
+  }
+ //para hacer un modo anisotropico
+ iX( x: number):number { return Math.round(this.centerX - x  / this.pixelSize) ; }
+ iY( y: number): number { return this.maxY - Math.round (this.centerY + y / this.pixelSize);}
+ 
+ 
+ //dibuja las lineas 
+ drawLine(x1: number, y1: number, x2: number, y2:number,) {
+  this.graphics.beginPath();
+  this.graphics.moveTo(x1, y1);
+  this.graphics.lineTo(x2, y2);
+  this.graphics.closePath();
+  this.graphics.stroke();
+  //this.graphics.fill();// le agregue
+  //this.graphics.closePath();
+  //this.graphics.stroke();
+}
+
+paint() {
+  this.drawLine(320, 40, 480, 400);;// le agregue 120,30,380,300
+  this.drawLine(320, 40, 140, 400);//le agregue   120, 30, 40,300
+  this.drawLine(140, 400, 480, 400)// le agregue  40,300,380,300
+  //this.drawLine(320,40,420,400);//le agregue
+ 
+  /*this.drawLine(this.iX(0), this.iY(0), this.iX(1), this.iY(0));
+  this.drawLine(this.iX(1), this.iY(0), this.iX(1), this.iY(1));
+  this.drawLine(this.iX(1), this.iY(1), this.iX(0), this.iY(1));
+  this.drawLine(this.iX(0), this.iY(1), this.iX(0), this.iY(0));
+  */
+ 
+}
+  /*
   iX(x: number):number{return Math.round(this.centerX + x/this.pixelSize);}
   iY(y: number): number{ return Math.round(this.centerY - y / this.pixelSize); }
   drawLine(x1: number, y1: number, x2: number, y2:number) {
@@ -35,24 +79,24 @@ export class CanvasLocal {
   fx(x:number):number {
     return Math.sin(x*2.5);
   }
+*/
 
-
-  paint() {
+ // paint() {
     
-    this.drawLine(this.iX(-3), this.iY(0), this.iX(3), this.iY(0));
-    this.drawLine(this.iX(0), this.iY(2), this.iX(0), this.iY(-2));
+   // this.drawLine(this.iX(-3), this.iY(0), this.iX(3), this.iY(0));
+    // this.drawLine(this.iX(0), this.iY(2), this.iX(0), this.iY(-2));
 
 
     //dibuja la cuadricula
-    this.graphics.strokeStyle = 'lightgray';
+   /* this.graphics.strokeStyle = 'lightgray';
     for (let x = -3; x <= 3; x+=0.25){
       this.drawLine(this.iX(x), this.iY(-2), this.iX(x), this.iY(2));
     }
     for (let y = -2; y <= 2; y+=0.25){
       this.drawLine(this.iX(-3), this.iY(y), this.iX(3), this.iY(y));
-    }
+    } */
     //dibuja las divisiones
-    this.graphics.strokeStyle = 'black';
+   /* this.graphics.strokeStyle = 'black';
     for (let x = -3; x <= 3; x++){
       this.drawLine(this.iX(x), this.iY(-0.1), this.iX(x), this.iY(0.1));
       this.graphics.strokeText(x+"", this.iX(x-0.1), this.iY(-0.2));
@@ -61,13 +105,13 @@ export class CanvasLocal {
       this.drawLine(this.iX(-0.1), this.iY(y), this.iX(0.1), this.iY(y));
     }
     this.graphics.strokeText("X", this.iX(2.9), this.iY(0.2));
-    this.graphics.strokeText("Y", this.iX(-0.2), this.iY(1.8));
+    this.graphics.strokeText("Y", this.iX(-0.2), this.iY(1.8));*/
     //dibujar la funcion
-    this.graphics.strokeStyle = 'red';
-    let paso: number = 0.1;
-    for (let x = -3; x <= 3; x+=paso){
-      this.drawLine(this.iX(x), this.iY(this.fx(x)), this.iX(x+paso), this.iY(this.fx(x+paso)));
-    }
+  //  this.graphics.strokeStyle = 'red';
+   // let paso: number = 0.1;
+  //for (let x = -3; x <= 3; x+=paso){
+   //this.drawLine(this.iX(x), this.iY(this.fx(x)), this.iX(x+paso), this.iY(this.fx(x+paso)));
+    //}
     /*this.graphics.strokeStyle = 'red';
     this.drawLine(this.iX(0), this.iY(0), this.iX(2), this.iY(0));
     this.drawLine(this.iX(2), this.iY(0), this.iX(1), this.iY(1.5));
@@ -135,4 +179,4 @@ export class CanvasLocal {
     
   }
 
-}
+//}
