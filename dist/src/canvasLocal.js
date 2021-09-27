@@ -56,6 +56,7 @@ export class CanvasLocal {
             this.drawLine(xA, yA, xB, yB);
             this.drawLine(xB, yB, xC, yC);
             this.drawLine(xC, yC, xA, yA);
+            this.drawLine(xA, yA, xB, yB);
             xA1 = p * xA + q * xB;
             yA1 = p * yA + q * yB;
             xB1 = p * xB + q * xC;

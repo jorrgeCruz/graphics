@@ -59,6 +59,7 @@ paint() {
   this.drawLine(320, 40, 140, 400);//
   this.drawLine(140, 400, 480, 400)// 
 */  
+//codigo del libro acoplado
   let side= 0.9 *480;
   let sideHalf= 0.5 * side;
   let xCenter= 320;
@@ -79,6 +80,7 @@ paint() {
     this.drawLine(xA, yA, xB,  yB);
     this.drawLine(xB, yB, xC,  yC);
     this.drawLine(xC, yC, xA,  yA);
+    
     xA1 = p * xA + q * xB;
     yA1 = p * yA + q * yB;
     xB1 = p * xB + q * xC;
