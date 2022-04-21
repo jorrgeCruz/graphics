@@ -30,6 +30,7 @@ export class CanvasLocal {
     this.graphics.stroke();
   }
 
+  //formula para la funcion 
   fx(x) {
     return Math.pow(x, 2);
   }
