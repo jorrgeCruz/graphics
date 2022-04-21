@@ -1,7 +1,45 @@
 #footer{
-    background: linear-gradient(0deg,#1c3643,#273b47 25%,#1e5372);
-  }
-  
-  #footer a{
-    color: #FFFFFF;
-  }
+  background: linear-gradient(0deg,#1c3643,#273b47 25%,#1e5372);
+}
+
+#footer a{
+  color: #FFFFFF;
+}
+
+.botton{
+  text-decoration:none;
+  color:#333333;
+  padding-top:10px;
+  background-color:#fff200;
+  border-color: #d8d8d8;
+  border-style: solid;
+  border-radius:10px;
+  padding-top:5px;
+  padding-bottom:5px;
+  padding-left:40px;
+  padding-right:40px;
+}
+
+.botton:hover{
+  background-color:#0ee2f5
+}
+
+.texfield{
+  text-align: justify;
+  text-decoration:none;
+  color:#333333;
+  margin: 10px;
+  text-align: center;
+  background-color:#fbfbfb;
+  border-color: #d8d8d8;
+  border-style: solid;
+  border-radius:30px;
+
+}
+
+.card-title{
+  text-decoration:blue;
+  font-family:cursive;
+  font-weight: 100px  ;
+
+}
