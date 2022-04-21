@@ -1,8 +1,8 @@
 export class CanvasLocal {
     constructor(g, canvas) {
-        this.rWidth = 10.0;
-        this.rHeight = 10.0;
         this.graphics = g;
+        this.rWidth = 18;
+        this.rHeight = 4;
         this.maxX = canvas.width - 1;
         this.maxY = canvas.height - 1;
         this.pixelSize = Math.max(this.rWidth / this.maxX, this.rHeight / this.maxY);
@@ -18,69 +18,51 @@ export class CanvasLocal {
         this.graphics.closePath();
         this.graphics.stroke();
     }
+    fx(x) {
+        return Math.pow(x, 2);
+    }
     paint() {
-        /*this.drawLine(this.iX(0), this.iY(0), this.iX(1), this.iY(0));
-        this.drawLine(this.iX(1), this.iY(0), this.iX(1), this.iY(1));
-        this.drawLine(this.iX(1), this.iY(1), this.iX(0), this.iY(1));
-        this.drawLine(this.iX(0), this.iY(1), this.iX(0), this.iY(0));*/
-        //triasngulo con base = 2, altura de 5
-        this.drawLine(this.iX(-1), this.iY(0), this.iX(1), this.iY(0));
-        this.drawLine(this.iX(1), this.iY(0), this.iX(0), this.iY(5));
-        this.drawLine(this.iX(0), this.iY(5), this.iX(-1), this.iY(0));
-        /*let lado = 1;
-        let side = 0.95 * lado;
-        let sideHalf = 0.5 * side;
-        let xCenter = 320;
-        let yCenter = 240;
-          
-        let h = sideHalf * Math.sqrt(3);
-        let xA, yA, xB, yB, xC, yC,
-        xA1, yA1, xB1, yB1, xC1, yC1, p, q;
-        q = 0.05;
-        p = 1 - q;
-        /*xA = xCenter - sideHalf;
-        yA = yCenter - 0.5 * h;
-        xB = xCenter + sideHalf;
-        yB = yA;
-        xC = xCenter;
-        yC = yCenter + 0.5 * h; *
-    
-        for (let m = 0; m < 4; m++){
-          for (let n = 0; n < 4; n++){
-            xA = 1+n*lado - sideHalf;
-            yA = 1+m*lado - 0.5 * h;
-            xB = 1+n*lado+ sideHalf;
-            yB = yA;
-            xC = 1+n*lado;
-            yC = 1+m*lado + 0.5 * h;
-            for (let i = 0; i < 20; i++){
-              this.drawLine(this.iX(xA), this.iY(yA), this.iX(xB), this.iY(yB));
-              this.drawLine(this.iX(xB), this.iY(yB), this.iX(xC), this.iY(yC));
-              this.drawLine(this.iX(xC), this.iY(yC), this.iX(xA), this.iY(yA));
-              xA1 = p * xA + q * xB;
-              yA1 = p * yA + q * yB;
-              xB1 = p * xB + q * xC;
-              yB1 = p * yB + q * yC;
-              xC1 = p * xC + q * xA;
-              yC1 = p * yC + q * yA;
-              xA = xA1; xB = xB1; xC = xC1;
-              yA = yA1; yB = yB1; yC = yC1;
+        //dibuja la cuadricula
+        this.graphics.clearRect(0, 0, this.maxX + 1, this.maxY + 1);
+        this.graphics.strokeStyle = 'red';
+        for (let x = -7; x <= 7; x++) {
+            this.drawLine(this.iX(x), this.iY(-3), this.iX(x), this.iY(3));
+            for (let y = -3; y <= 3; y++) {
+                this.drawLine(this.iX(-5), this.iY(y), this.iX(2), this.iY(y));
             }
-          }
         }
-    
-        /* for (let i = 0; i < 50; i++){
-            this.drawLine(xA, yA, xB, yB);
-            this.drawLine(xB, yB, xC, yC);
-            this.drawLine(xC, yC, xA, yA);
-            xA1 = p * xA + q * xB;
-            yA1 = p * yA + q * yB;
-            xB1 = p * xB + q * xC;
-            yB1 = p * yB + q * yC;
-            xC1 = p * xC + q * xA;
-            yC1 = p * yC + q * yA;
-            xA = xA1; xB = xB1; xC = xC1;
-            yA = yA1; yB = yB1; yC = yC1;
-        } */
+        this.graphics.strokeStyle = 'lightgray';
+        for (let x = -7; x <= 8; x += 0.25) {
+            this.drawLine(this.iX(x), this.iY(-3), this.iX(x), this.iY(3));
+            for (let y = -3; y <= 3; y += 0.25) {
+                this.drawLine(this.iX(-7), this.iY(y), this.iX(8), this.iY(y));
+            }
+        }
+        this.graphics.strokeStyle = 'gray';
+        for (let x = -7; x <= 8; x++) {
+            this.drawLine(this.iX(x), this.iY(-3), this.iX(x), this.iY(3));
+            for (let y = -3; y <= 3; y++) {
+                this.drawLine(this.iX(-7), this.iY(y), this.iX(8), this.iY(y));
+            }
+        }
+        //dibuja las divisiones
+        this.graphics.strokeStyle = 'black';
+        for (let x = -7; x <= 8; x++) {
+            /*this.drawLine(this.iX(x), this.iY(-0.1), this.iX(x), this.iY(0.1));*/
+            this.graphics.fillText(x + "", this.iX(x - 0.1), this.iY(-0.2));
+        }
+        this.graphics.strokeStyle = 'black';
+        for (let y = -3; y <= 3; y++) {
+            /*this.drawLine(this.iX(-0.1), this.iY(y), this.iX(0.1), this.iY(y));*/
+            this.graphics.fillText(y + "", this.iX(-0.2), this.iY(y));
+        }
+        //dibuja el plano cartesiano
+        this.drawLine(this.iX(-7), this.iY(0), this.iX(8), this.iY(0));
+        this.drawLine(this.iX(0), this.iY(3), this.iX(0), this.iY(-3));
+        //dibujar la funcion
+        this.graphics.strokeStyle = 'blue';
+        for (let x = -1.7; x <= 1.5; x += 0.1) {
+            this.drawLine(this.iX(x), this.iY(this.fx(x)), this.iX(x + 0.3), this.iY(this.fx(x + 0.3)));
+        }
     }
 }
