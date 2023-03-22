@@ -11,26 +11,59 @@ export class CanvasLocal {
     }
     iX(x) { return Math.round(this.centerX + x / this.pixelSize); }
     iY(y) { return Math.round(this.centerY - y / this.pixelSize); }
-    drawLine(x1, y1, x2, y2) {
-        this.graphics.beginPath();
-        this.graphics.moveTo(x1, y1);
-        this.graphics.lineTo(x2, y2);
-        this.graphics.closePath();
-        this.graphics.stroke();
+    drawLine(g, xP, yP, xQ, yQ) {
+        let x = xP, y = yP, d = 0, dx = xQ - xP, dy = yQ - yP, c, m, xInc = 1, yInc = 1;
+        if (dx < 0) {
+            xInc = -1;
+            dx = -dx;
+        }
+        if (dy < 0) {
+            yInc = -1;
+            dy = -dy;
+        }
+        if (dy <= dx) {
+            c = 2 * dx;
+            m = 2 * dy;
+            if (xInc < 0)
+                dx++;
+            for (;;) {
+                g.fillRect(x, y, 1, 1);
+                if (x == xQ)
+                    break;
+                x += xInc;
+                d += m;
+                if (d >= dx) {
+                    y += yInc;
+                    d -= c;
+                }
+            }
+        }
+        else {
+            c = 2 * dy;
+            m = 2 * dx;
+            if (yInc < 0)
+                dy++;
+            for (;;) {
+                g.fillRect(x, y, 1, 1);
+                if (y == yQ)
+                    break;
+                y += yInc;
+                d += m;
+                if (d >= dy) {
+                    x += xInc;
+                    d -= c;
+                }
+            }
+        }
     }
-    o(x, y, s) {
-        this.drawLine(this.iX(x + 0.2 * s), this.iY(y + 0), this.iX(x + 0.7 * s), this.iY(y + 0));
-        this.drawLine(this.iX(x + 0.7 * s), this.iY(y + 0), this.iX(x + 0.9 * s), this.iY(y + 0.2 * s));
-        this.drawLine(this.iX(x + 0.9 * s), this.iY(y + 0.2 * s), this.iX(x + 0.9 * s), this.iY(y + 0.8 * s));
-        this.drawLine(this.iX(x + 0.9 * s), this.iY(y + 0.8 * s), this.iX(x + 0.7 * s), this.iY(y + 1 * s));
-        this.drawLine(this.iX(x + 0.7 * s), this.iY(y + 1 * s), this.iX(x + 0.2 * s), this.iY(y + 1 * s));
-        this.drawLine(this.iX(x + 0.2 * s), this.iY(y + 1 * s), this.iX(x + 0.0), this.iY(y + 0.8 * s));
-        this.drawLine(this.iX(x + 0), this.iY(y + 0.8 * s), this.iX(x + 0.0), this.iY(y + 0.2 * s));
-        this.drawLine(this.iX(x + 0.0), this.iY(y + 0.2 * s), this.iX(x + 0.2 * s), this.iY(y + 0));
-    }
+    /*drawLine(x1: number, y1: number, x2: number, y2:number) {
+      this.graphics.beginPath();
+      this.graphics.moveTo(x1, y1);
+      this.graphics.lineTo(x2, y2);
+      this.graphics.closePath();
+      this.graphics.stroke();
+    }*/
     paint() {
-        this.o(1, 1, 2);
-        this.o(3, 1, 0.5);
-        this.o(3.5, 1, 1);
+        this.drawLine(this.graphics, 10, 10, 100, 50);
     }
 }

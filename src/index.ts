@@ -1,5 +1,7 @@
 import { CanvasLocal } from './canvasLocal.js';
 
+
+
 let canvas: HTMLCanvasElement;
 let graphics: CanvasRenderingContext2D;
 
