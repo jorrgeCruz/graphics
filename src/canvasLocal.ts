@@ -52,6 +52,23 @@ export class CanvasLocal {
       }
     }
   }
+
+  drawCircle(g: CanvasRenderingContext2D,xC: number,yC: number, r: number): void{
+    let x = 0, y = r, u = 1, v = 2 * r - 1, e = 0;
+    while (x < y){
+      g.fillRect(xC + x, yC + y, 1, 1); // NNE
+      g.fillRect(xC + y, yC - x, 1, 1); // ESE
+      g.fillRect(xC - x, yC - y, 1, 1); // SSW
+      g.fillRect(xC - y, yC + x, 1, 1); // WNW
+      x++; e += u; u += 2;
+      if (v < 2 * e){y--; e -= v; v -= 2;}
+      if (x > y) break;
+      g.fillRect(xC + y, yC + x, 1, 1); // ENE
+      g.fillRect(xC + x, yC - y, 1, 1); // SSE
+      g.fillRect(xC - y, yC - x, 1, 1); // WSW
+      g.fillRect(xC - x, yC + y, 1, 1); // NNW
+  }
+}
   /*drawLine(x1: number, y1: number, x2: number, y2:number) {
     this.graphics.beginPath();
     this.graphics.moveTo(x1, y1);
@@ -60,7 +77,7 @@ export class CanvasLocal {
     this.graphics.stroke();
   }*/
   paint() {
-    this.drawLine(this.graphics, 10, 10, 100, 50);
+    this.drawCircle(this.graphics, 320, 240, 50)
   }
 
 }
