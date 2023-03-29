@@ -1,4 +1,4 @@
-
+import { Point2D } from "./Point2D.js";
 export class CanvasLocal {
   //atributos
   protected graphics: CanvasRenderingContext2D;
@@ -21,8 +21,8 @@ export class CanvasLocal {
     
   }
 
-  iX( x: number):number { return Math.round(this.centerX + x/this.pixelSize); }
-  iY( y: number):number { return Math.round(this.centerY - y/this.pixelSize); }
+  iX( x: number):number { return Math.round(x); }
+  iY( y: number):number { return Math.round(y); }
   
   drawLine(g: CanvasRenderingContext2D, xP: number, yP: number, xQ: number, yQ:number) {
     let x = xP, y = yP, d = 0, dx = xQ - xP, dy = yQ - yP,
@@ -68,7 +68,24 @@ export class CanvasLocal {
       g.fillRect(xC - y, yC - x, 1, 1); // WSW
       g.fillRect(xC - x, yC + y, 1, 1); // NNW
   }
-}
+  }
+  middle(a: Point2D, b: Point2D): Point2D{
+    return new Point2D((a.x + b.x) / 2, (a.y + b.y) / 2);
+  }
+  bezier(g: CanvasRenderingContext2D, p0: Point2D , p1: Point2D,
+    p2: Point2D, p3: Point2D): void { 
+      let x0 = this.iX(p0.x), y0 = this.iY(p0.y),
+        x3 = this.iX(p3.x), y3 = this.iY(p3.y);
+    if (Math.abs(x0 - x3) <= 1 && Math.abs(y0 - y3) <= 1)
+        this.drawLine(g, x0, y0, x3, y3);
+    else{
+      let a = this.middle(p0, p1), b = this.middle(p3, p2),
+            c = this.middle(p1, p2), a1 = this.middle(a, c),
+            b1 = this.middle(b, c), c1 = this.middle(a1, b1);
+        this.bezier(g, p0, a, a1, c1);
+        this.bezier(g, c1, b1, b, p3);
+     }
+  }
   /*drawLine(x1: number, y1: number, x2: number, y2:number) {
     this.graphics.beginPath();
     this.graphics.moveTo(x1, y1);
@@ -77,7 +94,9 @@ export class CanvasLocal {
     this.graphics.stroke();
   }*/
   paint() {
-    this.drawCircle(this.graphics, 320, 240, 50)
+    //this.drawCircle(this.graphics, 320, 240, 50);
+    //debugger
+    this.bezier(this.graphics,new Point2D(50,150), new Point2D(100,50),new Point2D(180,50),new Point2D(200,100))
   }
 
 }
