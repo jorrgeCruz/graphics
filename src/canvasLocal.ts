@@ -53,6 +53,31 @@ export class CanvasLocal {
     // Lo rellenamos
     this.graphics.fill();
   }
+  drawBarra3d(x1: number, y1: number, x2: number, y2: number,
+  x3:number, y3:number, x4:number, y4:number, x5:number, y5:number, x6:number, y6:number,color:string) {
+  
+    // Color de relleno
+    this.graphics.fillStyle = color;
+    // Comenzamos la ruta de dibujo, o path
+    this.graphics.beginPath();
+    // Mover a la esquina superior izquierda
+    this.graphics.moveTo(x1, y1);
+    // Dibujar la línea hacia la derecha
+    this.graphics.lineTo(x2, y2);
+    // Ahora la que va hacia abajo
+    this.graphics.lineTo(x3, y3); // A 80 porque esa es la altura
+    // La que va hacia la izquierda
+    this.graphics.lineTo(x4, y4);
+    this.graphics.lineTo(x5, y5);
+    this.graphics.lineTo(x6, y6);
+    // Y dejamos que la última línea la dibuje JS
+    this.graphics.closePath();
+    // Hacemos que se dibuje
+    this.graphics.stroke();
+    // Lo rellenamos
+    this.graphics.fill();
+  }
+
 
   fx(x:number):number {
     return Math.sin(x*2.5);
@@ -99,14 +124,16 @@ export class CanvasLocal {
     
     //let h: number[] = [20, 100, 160, 420];
     //let h: number[] = [1150, 1780, 860, 1260, 1500];
-    let h: number[] = [27, 10, 16,90,50,75];
+    let h: number[] = [27, 10, 16,90,50,75,101,13,24,80];
+    //let h: number[] = [10, 20, 30, 151];
+    //let h: number[] = [100, 291, 543, 824, 1122];
     let maxEsc: number;
-    let colors: string[]= ['magenta', 'red', 'green', 'yellow'];
+    let colors: string[]= ['magenta', 'red', 'green', 'yellow', 'blue'];
 
     maxEsc = this.maxH(h);
-    let i=0;
+   /* let i=0;
     for(let x= 0; x < 8; x+=(8/(h.length*1)) ){
-      this.graphics.strokeStyle = colors[i%4];
+      this.graphics.strokeStyle = colors[i%5];
       if(i<h.length)
         this.barra(x,0, h[i++]*(this.rHeight-2)/maxEsc);
     }
@@ -117,47 +144,67 @@ export class CanvasLocal {
         this.graphics.strokeText(h[i++]+"", this.iX(x), this.iY(-0.5));
     }
     
-/*
-    this.barra(3,0, 10*(this.rHeight-2)/maxEsc);
+*/
+    /*this.barra(3,0, 10*(this.rHeight-2)/maxEsc);
 
     this.barra(5,0, 16*(this.rHeight-2)/maxEsc);
-    this.barra(7,0, 2*(this.rHeight-2)/maxEsc);
-    /*this.graphics.strokeStyle = 'black';
+    this.barra(7,0, 2*(this.rHeight-2)/maxEsc);*/
+    this.graphics.strokeStyle = 'black';
     this.drawLine(this.iX(0), this.iY(0), this.iX(8), this.iY(0));
     this.drawLine(this.iX(0), this.iY(0), this.iX(0), this.iY(6));
     //las 6 unidades se dividen entre 4 periodos de lineas cada una 
     //representara una escala de 1/4 del total maximo
     let i = 0;
-    for (let y = 0.6; y <= 6; y += 1.35){
+    for (let y = 0.25; y <= 6; y += 1.35){
       this.drawLine(this.iX(0.6), this.iY(y), this.iX(8), this.iY(y));
-      this.drawLine(this.iX(0), this.iY(y - 0.6), this.iX(0.6), this.iY(y));
-      this.graphics.strokeText((maxEsc*i/4)+"",this.iX(-0.5), this.iY(y-0.7));
+      this.drawLine(this.iX(0), this.iY(y - 0.25), this.iX(0.6), this.iY(y));
+      this.graphics.strokeText((maxEsc*i/4)+"",this.iX(-0.5), this.iY(y-0.3));
       i++;
     }
     this.graphics.strokeStyle = 'black';
     let ind = 0;
-    for (let i = 0.5; i <=8; i += 2){
-      //this.graphics.strokeStyle = colors[ind];
-      this.graphics.fillStyle = colors[ind];
+    let avance = (8/(h.length*2));
+    for (let i = 0.5; i <=8; i += 2*avance){
+      this.graphics.strokeStyle = colors[ind % colors.length];
+      this.graphics.fillStyle = colors[ind  % colors.length];
+      this.drawBarra3d(this.iX(i), this.iY(0), this.iX(i), 
+                      this.iY(6 * h[ind] / maxEsc-0.1),
+                      this.iX(i+0.5), this.iY((6 * h[ind] / maxEsc-0.1)+0.25), 
+                      this.iX(i+avance+0.5), this.iY((6 * h[ind] / maxEsc-0.1)+0.25),
+                      this.iX(i+avance+0.5), this.iY(0.25), 
+                      this.iX(i+avance), this.iY(0),
+                      colors[ind  % colors.length]); 
+  
+      this.graphics.strokeStyle = 'black';
       //console.log(this.rHeight*h[ind]/maxEsc)
+      //estas tres lineas son el rectungulo que forma una barra
       this.drawLine(this.iX(i), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(i), this.iY(0));
-      this.graphics.fillRect(this.iX(i), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(2) - this.iX(1), this.iY(0.2) - this.iY(6 * h[ind] / maxEsc ));
-      this.drawRmboide(this.iX(i + 0.3), this.iY(6 * h[ind] / maxEsc + 0.2), this.iX(i + 1.3), this.iY(6 * h[ind] / maxEsc + 0.2),
+      this.drawLine(this.iX(i+avance), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(i+avance), this.iY(0));
+      this.drawLine(this.iX(i), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(i+avance), this.iY(6 * h[ind] / maxEsc-0.1));
+      //las siguientes lineas son l que ñe dan el efecto de profundidad
+      this.drawLine(this.iX(i), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(i+0.5), this.iY((6 * h[ind] / maxEsc-0.1)+0.25));
+      this.drawLine(this.iX(i+0.5), this.iY((6 * h[ind] / maxEsc-0.1)+0.25),this.iX(i+avance+0.5), this.iY((6 * h[ind] / maxEsc-0.1)+0.25));
+      this.drawLine(this.iX(i+avance), this.iY((6 * h[ind] / maxEsc-0.1)),this.iX(i+avance+0.5), this.iY((6 * h[ind] / maxEsc-0.1)+0.25));
+      this.drawLine(this.iX(i+avance+0.5), this.iY((6 * h[ind] / maxEsc-0.1)+0.25),this.iX(i+avance+0.5), this.iY(0.25));
+      this.drawLine(this.iX(i+avance), this.iY(0),this.iX(i+avance+0.5), this.iY(0.25));
+      //this.graphics.fillRect(this.iX(i), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(2) - this.iX(1), this.iY(0.2) - this.iY(6 * h[ind] / maxEsc ));
+      /*this.drawRmboide(this.iX(i + 0.3), this.iY(6 * h[ind] / maxEsc + 0.2), this.iX(i + 1.3), this.iY(6 * h[ind] / maxEsc + 0.2),
                       this.iX(i + 1), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(i), this.iY(6 * h[ind] / maxEsc-0.1), colors[ind]);
       this.drawRmboide(this.iX(i + 1), this.iY(6 * h[ind] / maxEsc-0.1), this.iX(i + 1.3), this.iY(6 * h[ind] / maxEsc + 0.2),
                       this.iX(i+1.3), this.iY(0.4), this.iX(i+1), this.iY(0.1), colors[ind]) ;
-      ind++;
+      */ind++;
     }
     ind=0
+    this.graphics.strokeStyle = 'black';
     for (let x = 0; x < 8; x += 2) {
       this.graphics.strokeText(colors[ind++], this.iX(x+0.5), this.iY(-0.5));
     }
 
     for (let y = 0; y< h.length; y++) {
-      this.graphics.strokeText(colors[y], this.iX(9), this.iY(5 - y));
+      this.graphics.strokeText(""+h[y], this.iX(9), this.iY(5 - y));
       this.graphics.fillStyle = colors[y];
       this.graphics.fillRect(this.iX(8.5), this.iY(5 - y), 10, 10);
-    }*/
+    }
     
   }
 
