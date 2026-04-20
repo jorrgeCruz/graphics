@@ -23,9 +23,62 @@ export class CanvasLocal {
       return Math.sin(x*2.5);
     }*/
     paint() {
-        this.drawLine(100.5, 100, 500, 100.5);
-        this.drawLine(500, 100, 300, 400);
-        this.drawLine(300, 400, 100, 100);
+      const centerX = 320;
+const centerY = 240;
+const radius = 80;
+
+// profundidad
+const offsetX = 50;
+const offsetY = -50;
+
+// función para dibujar un pentágono
+function drawPentagon(cx, cy, r) {
+    let points = [];
+    for (let i = 0; i < 5; i++) {
+        const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        points.push({x, y});
+    }
+    return points;
+}
+
+// caras
+const front = drawPentagon(centerX, centerY, radius);
+const back = drawPentagon(centerX + offsetX, centerY + offsetY, radius);
+
+// 🔷 CARA TRASERA
+this.graphics.beginPath();
+this.graphics.moveTo(back[0].x, back[0].y);
+for (let i = 1; i < back.length; i++) {
+    this.graphics.lineTo(back[i].x, back[i].y);
+}
+this.graphics.closePath();
+this.graphics.fillStyle = "rgba(100,100,100,0.3)";
+this.graphics.fill();
+this.graphics.stroke();
+
+// 🔷 CARA FRONTAL
+this.graphics.beginPath();
+this.graphics.moveTo(front[0].x, front[0].y);
+for (let i = 1; i < front.length; i++) {
+    this.graphics.lineTo(front[i].x, front[i].y);
+}
+this.graphics.closePath();
+this.graphics.fillStyle = "rgba(0,150,255,0.6)";
+this.graphics.fill();
+this.graphics.stroke();
+
+// 🔗 CONECTAR (profundidad)
+for (let i = 0; i < 5; i++) {
+    this.graphics.beginPath();
+    this.graphics.moveTo(front[i].x, front[i].y);
+    this.graphics.lineTo(back[i].x, back[i].y);
+    this.graphics.stroke();
+}
+        // this.drawLine(100.5, 100, 500, 100.5);
+        //this.drawLine(500, 100, 300, 400);
+       // this.drawLine(300, 400, 100, 100);
         /* this.drawLine(this.iX(-3), this.iY(0), this.iX(3), this.iY(0));
          this.drawLine(this.iX(0), this.iY(2), this.iX(0), this.iY(-2));
      
