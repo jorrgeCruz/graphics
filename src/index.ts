@@ -1,11 +1,18 @@
-import { CanvasLocal } from './canvasLocal.js';
+import { CanvasLocal } from "./canvasLocal.js";
 
-let canvas: HTMLCanvasElement;
-let graphics: CanvasRenderingContext2D;
+(window as any).dibujar = function () {
 
-canvas = <HTMLCanvasElement>document.getElementById('circlechart');
-graphics = canvas.getContext('2d');
+    const labelsInput = (document.getElementById("labels") as HTMLInputElement).value;
+    const valuesInput = (document.getElementById("values") as HTMLInputElement).value;
 
-const miCanvas:CanvasLocal = new CanvasLocal(graphics, canvas);
+    const labels = labelsInput.split(",");
+    const values = valuesInput.split(",").map(Number);
 
-miCanvas.paint();
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d")!;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const grafica = new CanvasLocal(ctx, canvas);
+    grafica.barrasHorizontales3D(labels, values);
+}
